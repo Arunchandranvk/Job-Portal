@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ay%b&kswon44kn3pv^=f#fwf!q7=*)un^p7lk&x2rsrk!&akq)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','https://arunchandranvk.github.io/Job-Portal/']
 
 AUTH_USER_MODEL="accounts.CustomUser"
 # Application definition
