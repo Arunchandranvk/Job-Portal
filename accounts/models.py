@@ -67,7 +67,7 @@ class Company(models.Model):
         return self.name
     
     
-class Jobs(models.Model):
+class IndeedJobs(models.Model):
     job_title = models.TextField()
     company_name=models.CharField(max_length=500)
     job_location=models.CharField(max_length=500)
@@ -100,6 +100,20 @@ class TechnoparkJobs(models.Model):
     
 class CyberparkJobs(models.Model):
     company_name = models.CharField()
+    job_title=models.CharField(max_length=600)
+    job_link=models.TextField()
+    post_date=models.CharField(max_length=600)
+    datetime=models.DateTimeField(auto_now_add=True)
+    
+    def recent_job(self):
+        return self.datetime >= (timezone.now() - timedelta(days=1))
+    
+    def __str__(self):
+        return self.job_title
+    
+    
+class InfoparkJobs(models.Model):
+    company = models.CharField()
     job_title=models.CharField(max_length=600)
     job_link=models.TextField()
     post_date=models.CharField(max_length=600)

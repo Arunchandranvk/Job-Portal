@@ -3,7 +3,7 @@ from .models import *
 import time
 from datetime import  timedelta
 from celery import shared_task
-from .views import scrape_indeed_jobs,scrape_and_save_jobs,Cyberpark_Jobs
+from .views import scrape_indeed_jobs,scrape_and_save_jobs_technopark,Cyberpark_Jobs,Infopark_jobs
 import logging
 
 logger = logging.getLogger(__name__)
@@ -14,8 +14,9 @@ def test_task():
     try:
             minutes=120
             seconds = minutes * 60
+            Infopark_jobs()
             Cyberpark_Jobs()
-            scrape_and_save_jobs()
+            scrape_and_save_jobs_technopark()
             scrape_indeed_jobs(job_name='python , data science , ml ,dl,flutter,mern,sql,testing,.net,django,technical support, webdeveloper,ai', location='Ernakulam', num_days=7)
             time.sleep(10)
             scrape_indeed_jobs(job_name='python , data science , ml ,dl,flutter,mern,sql,testing,.net,django,technical support, webdeveloper,ai', location='Kozhikode', num_days=7)
@@ -51,7 +52,7 @@ def test_task():
             time.sleep(seconds)
             
             indeed_deletion_date = timezone.now() - timedelta(days=7)
-            Jobs.objects.filter(datetime__lte=indeed_deletion_date).delete()
+            IndeedJobs.objects.filter(datetime__lte=indeed_deletion_date).delete()
             print("Indeed Cleared")
             technopark_deletion_date = timezone.now()
             TechnoparkJobs.objects.filter(closing_date__lt=technopark_deletion_date).delete()

@@ -1,0 +1,100 @@
+{% extends "index.html" %} 
+{% block home %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/cyber.css' %}">
+<section>
+    <div class="section-heading">
+        <h6>Welcome to</h6>
+        <h4>Job Search</h4>
+    </div>
+    <div class="container">
+        <div class="search-form-container">
+            <form method="post" class="search-form">
+                {% csrf_token %}
+           
+                <div class="row mt-3">
+                    <div class="col" style="float: right;">
+                        {{form.job_name}}
+                    </div>
+                    <div class="col" style="float: left;">
+                        {{form.company}}
+                    </div>
+             
+                    <div class="col-2" style="float: left;">
+                        <button type="submit">Search</button>
+                    </div>
+                </div>
+
+                
+            </form>
+        </div>
+        {% if jobs %}
+      
+        <table >
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Job Title</th>
+                    <th>Company </th>
+                    <th>Closing Date</th>
+                    <th>Job Link</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                    <tr class="{% if job.recent_job %}recent_job{% endif %}">
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ job.job_title }}</td>
+                        <td>
+                            {% comment %} <img src="{{ job.logo.url }}" style="border-radius:0.75rem;object-fit:fill;height:60px;" alt=""> {% endcomment %}
+                            <p style="font-size: 0.875rem; color: #555; font-weight: 300; line-height: 1.4; margin: 0;">
+                                {{ job.company }}
+                            </p>
+                        </td>
+                        {% comment %} <td></td> {% endcomment %}
+                        
+                        <td>{{ job.post_date }}</td>
+                        <td>
+                            <a href="{{job.job_link}}">View Details</a></td>
+                        <td>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="shareLink('{{ job.job_url }}')">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                        
+                        </td>
+                        {% comment %} <td>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="saveLink('{{ job.job_url }}')">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </td> {% endcomment %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No jobs found.</p>
+    {% endif %}
+
+    </div>
+</section>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        function shareLink(url) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Job Listing',
+                    url: url
+                }).then(() => {
+                    console.log('Thanks for sharing!');
+                }).catch((error) => {
+                    console.log('Error sharing:', error);
+                });
+            } else {
+                // Fallback for browsers that do not support Web Share API
+                window.open('mailto:?subject=Job Listing&body=' + encodeURIComponent(url));
+            }
+        }
+    </script>
+{%  endblock%}

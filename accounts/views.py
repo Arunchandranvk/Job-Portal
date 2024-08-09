@@ -100,9 +100,9 @@ def scrape_indeed_jobs(job_name, location,num_days):
                 # normalized_url = normalize_url(job_data["job_url"])
 
 
-                if not Jobs.objects.filter(job_title=job_data["job_title"],company_name=job_data["company_name"]).exists():
+                if not IndeedJobs.objects.filter(job_title=job_data["job_title"],company_name=job_data["company_name"]).exists():
                     
-                    Jobs.objects.create(**job_data)
+                    IndeedJobs.objects.create(**job_data)
                     print("New Job Added")
                 else:
                     print("Already Exists!!!!")
@@ -149,7 +149,7 @@ class CyberparkCompaniesView(TemplateView):
         return context
  
 def indeed_job_search_view(request):
-    jobs = Jobs.objects.all().order_by('-datetime')
+    jobs = IndeedJobs.objects.all().order_by('-datetime')
     
     if request.method == 'POST':
         form = JobSearchForm(request.POST)
@@ -163,10 +163,10 @@ def indeed_job_search_view(request):
                 jobs = jobs.filter(job_location__icontains=location)
             return render(request, 'indeed.html', {'form': form, 'jobs': jobs})
         else:
-            jobs = Jobs.objects.none()
+            jobs = IndeedJobs.objects.none()
     else:
         form = JobSearchForm()
-        jobs = Jobs.objects.all().order_by('-datetime')
+        jobs = IndeedJobs.objects.all().order_by('-datetime')
         return render(request, 'indeed.html', { 'form': form,'jobs': jobs})
     
     
@@ -215,7 +215,7 @@ def save_job_data(data):
             print("Job Expired")
 
 # Main function to scrape and save jobs from all pages
-def scrape_and_save_jobs():
+def scrape_and_save_jobs_technopark():
     initial_data = fetch_jobs(1)
     total_pages = initial_data['last_page']
 
@@ -231,20 +231,20 @@ def Technopark_job_search_view(request):
     jobs = TechnoparkJobs.objects.all().order_by('-datetime')
     
     if request.method == 'POST':
-        form = JobSearchTechnoparkForm(request.POST)
+        form = JobSearchparkForm(request.POST)
         if form.is_valid():
-            job_name = form.cleaned_data['title']
+            job_name = form.cleaned_data['job_name']
             company = form.cleaned_data['company']
 
             if job_name:
-                jobs = jobs.filter(job_title__icontains=job_name)
+                jobs = jobs.filter(title__icontains=job_name)
             if company:
                 jobs = jobs.filter(company__icontains=company)
             return render(request, 'technoparkjobs.html', {'form': form, 'jobs': jobs})
         else:
             jobs = TechnoparkJobs.objects.none()
     else:
-        form = JobSearchTechnoparkForm()
+        form = JobSearchparkForm()
         jobs = TechnoparkJobs.objects.all().order_by('-datetime')
         return render(request, 'technoparkjobs.html', { 'form': form,'jobs': jobs})
     
@@ -286,7 +286,15 @@ def extract_posted_date_cyberpark(soup):
         else:
             posted_dates.append("Not specified")
     return posted_dates
-   
+
+
+def extract_images_cyberpark(soup):
+    images = []
+    for img_tag in soup.find_all('img', class_='company_logo'):
+        src = img_tag.get('src', 'Not specified')
+        images.append(src)
+    return images
+
     
 
 def Cyberpark_Jobs():
@@ -340,6 +348,7 @@ def Cyberpark_Jobs():
     company_names = extract_company_name_cyberpark(soup)
     job_titles = extract_job_title_cyberpark(soup)
     post_dates = extract_posted_date_cyberpark(soup)
+    # logo = extract_images(soup)
 
     length = len(job_links)
     for i in range(length):     
@@ -347,6 +356,7 @@ def Cyberpark_Jobs():
         job_title = job_titles[i] if i < len(job_titles) and job_titles[i] else "Not specified"
         job_link = job_links[i] if i < len(job_links) and job_links[i] else "Not specified"
         post_date = post_dates[i] if i < len(post_dates) and post_dates[i] else "Not specified"
+        # logo = logo[i] if i < len(logo) and logo[i] else "Not specified"
         
         if not CyberparkJobs.objects.filter(job_title=job_title,company_name=company_name).exists():
             try:   
@@ -373,6 +383,120 @@ def Cyberpark_Jobs():
             print(f"Skipping duplicate entry: {company_name} - {job_title}")
     driver.quit()
     
+    
+    
+def Cyberpark_job_search_view(request):
+    jobs = CyberparkJobs.objects.all().order_by('-datetime')
+    
+    if request.method == 'POST':
+        form = JobSearchparkForm(request.POST)
+        if form.is_valid():
+            job_name = form.cleaned_data['job_name']
+            company = form.cleaned_data['company']
+
+            if job_name:
+                jobs = jobs.filter(job_title__icontains=job_name)
+            if company:
+                jobs = jobs.filter(company_name__icontains=company)
+            return render(request, 'cyberpark_jobs.html', {'form': form, 'jobs': jobs})
+        else:
+            jobs = CyberparkJobs.objects.none()
+    else:
+        form = JobSearchparkForm()
+        jobs = CyberparkJobs.objects.all().order_by('-datetime')
+        return render(request, 'cyberpark_jobs.html', { 'form': form,'jobs': jobs})    
+    
+    
+    
+def Infopark_jobs():
+        chrome_options = Options()
+        chrome_options.add_argument(f'user-agent={UserAgent().random}')
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('window-size=1920x1080')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--disable-extensions')
+        chrome_options.add_argument('--disable-blink-features=AutomationControlled') 
+
+        service = Service(executable_path=ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+
+        # URL to be scraped
+        url = 'https://infopark.in/ml/companies/job-search'
+        driver.get(url)
+
+        try:
+            # Wait for the elements to be present
+            wait = WebDriverWait(driver, 10)  # Wait up to 10 seconds
+            while True:
+                try:
+                    # Locate job elements
+                    job_elements = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.joblist')))
+                    
+                    if not job_elements:
+                        break
+                    
+                    for job in job_elements:
+                        try:
+                            title_element = job.find_element(By.CSS_SELECTOR, 'a')
+                            title = title_element.text.strip() if title_element else 'N/A'
+                            job_url = title_element.get_attribute('href') if title_element else 'N/A'
+                            
+                            company_element = job.find_element(By.CSS_SELECTOR, '.jobs-comp-name a')
+                            company = company_element.text.strip() if company_element else 'N/A'
+                            
+                            date_element = job.find_element(By.CSS_SELECTOR, '.job-date')
+                            posted_date = date_element.text.strip() if date_element else 'N/A'
+                            if  not  InfoparkJobs.objects.filter(company=company,job_title=title).exists():
+                               InfoparkJobs.objects.create(company=company,job_title=title,job_link=job_url,post_date=posted_date)
+                        except Exception as e:
+                            print(f"Error processing job listing: {e}")
+                    
+          
+                    try:
+                        next_button = driver.find_element(By.CSS_SELECTOR, 'a.next')
+                        if next_button:
+                            next_button.click()
+                            wait.until(EC.staleness_of(job_elements[0]))  # Wait until the page is reloaded
+                        else:
+                            break
+                    except NoSuchElementException:
+                        print("No more pages or error finding the next page.")
+                        break
+
+                except TimeoutException:
+                    print("Error: Timeout while waiting for elements to load.")
+                    break
+
+        finally:
+            driver.quit()
+
+            
+
+def Infopark_job_search_view(request):
+    jobs = InfoparkJobs.objects.all().order_by('-datetime')
+    
+    if request.method == 'POST':
+        form = JobSearchInfoparkparkForm(request.POST)
+        if form.is_valid():
+            job_name = form.cleaned_data['job_name']
+            company = form.cleaned_data['company']
+
+            if job_name:
+                jobs = jobs.filter(job_title__icontains=job_name)
+            if company:
+                jobs = jobs.filter(company__icontains=company)
+            return render(request, 'infopark_jobs.html', {'form': form, 'jobs': jobs})
+        else:
+            jobs = CyberparkJobs.objects.none()
+    else:
+        form = JobSearchparkForm()
+        jobs = InfoparkJobs.objects.all().order_by('-datetime')
+        return render(request, 'infopark_jobs.html', { 'form': form,'jobs': jobs})    
+    
+    
+    
+    
+    
 def test(request):
     # Filter jobs where the closing date is less than the current time
     job_qs = TechnoparkJobs.objects.filter(closing_date__lt=timezone.now())
@@ -382,3 +506,5 @@ def test(request):
 
     # Return the serialized data as a JSON response
     return JsonResponse(job_list, safe=False)
+
+
