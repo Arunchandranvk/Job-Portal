@@ -1,113 +1,8 @@
  {% extends "index.html" %} 
  {% block home %}
- 
- <style>
-    section {
-        margin-top: 120px;
-      }
+{% load static %}
 
-      .section-heading {
-        position: relative;
-        z-index: 2;
-        margin-top: 0px;
-        text-align: center;
-        margin-bottom: 70px;
-      }
-
-      .section-heading h6 {
-        font-size: 16px;
-        text-transform: uppercase;
-        color: #ff511a;
-        font-weight: 700;
-      }
-
-      .section-heading h4 {
-        margin-top: 10px;
-        line-height: 40px;
-        font-size: 36px;
-        font-weight: 700;
-        text-transform: capitalize;
-        color: #212741;
-      }
-
-      .section-heading p {
-        margin-top: 30px;
-      }
-
-      /* Table styles */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 25px 0;
-        font-size: 18px;
-        text-align: left;
-      }
-
-      th, td {
-        padding: 12px;
-        border-bottom: 1px solid #ddd;
-      }
-
-      th {
-        background-color: #212741;
-        color: white;
-      }
-
-      tr:nth-child(even) {
-        background-color: #f2f2f2;
-      }
-
-      td a {
-        color: #ff511a;
-        transition: color 0.3s ease;
-      }
-
-      td a:hover {
-        color: #212741;
-      }
-
-      @media (max-width: 768px) {
-        table, thead, tbody, th, td, tr {
-          display: block;
-        }
-
-        tr {
-          margin-bottom: 15px;
-        }
-
-        th {
-          text-align: right;
-          position: relative;
-        }
-
-        th::before {
-          content: attr(data-label);
-          position: absolute;
-          left: 0;
-          width: 100px;
-          padding-left: 15px;
-          font-weight: bold;
-          text-align: left;
-        }
-
-        td {
-          text-align: right;
-          padding-left: 50%;
-          position: relative;
-        }
-
-        td::before {
-          content: attr(data-label);
-          position: absolute;
-          left: 0;
-          width: 50%;
-          padding-left: 15px;
-          font-weight: bold;
-          text-align: left;
-        }
-      }
-
- </style>
+<link rel="stylesheet" href="{% static 'css/cyber.css' %}">
 
  <section>
     <div class="section-heading">
@@ -118,6 +13,8 @@
         <table>
             <thead>
                 <tr>
+
+                    <th>No.</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Website</th>
@@ -127,7 +24,8 @@
             </thead>
             <tbody>
                 {% for company in companies %}
-                <tr>
+                <tr class="{% if job.recent_job %}recent_job{% endif %}">
+                    <td>{{ forloop.counter }}</td>
                     <td>{{ company.name }}</td>
                     <td>{{ company.email }}</td>
                     <td><a href="{{ company.website }}">{{ company.website }}</a></td>

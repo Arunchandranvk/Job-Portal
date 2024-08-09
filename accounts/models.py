@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser,PermissionsMixin
+from datetime import timedelta
+from django.utils import timezone
+
 # Create your models here.
 
 
@@ -26,13 +29,11 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractBaseUser,PermissionsMixin):
     name=models.CharField(max_length=100,null=True)
     email=models.EmailField(unique=True)
-    # phone=models.IntegerField(unique=True,null=True,blank=True)
     is_active=models.BooleanField(default=True)
     is_staff=models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
-    # otp=models.CharField(max_length=6,null=True,blank=True)
-    # otp_expiration = models.DateTimeField(null=True,blank=True)
+
     
     objects = CustomUserManager()
 
@@ -64,3 +65,48 @@ class Company(models.Model):
     park=models.CharField(max_length=100,choices=options,default="CyberPark")
     def __str__(self):
         return self.name
+    
+    
+class Jobs(models.Model):
+    job_title = models.TextField()
+    company_name=models.CharField(max_length=500)
+    job_location=models.CharField(max_length=500)
+    job_url=models.TextField()
+    datetime=models.DateTimeField(auto_now_add=True)
+    
+    def recent_job(self):
+        return self.datetime >= (timezone.now() - timedelta(days=1))
+    
+    def __str__(self):
+        return self.job_title    
+    
+class TechnoparkJobs(models.Model):
+    job_id = models.IntegerField()
+    job_listing_id=models.CharField(max_length=100)
+    title=models.CharField(max_length=500)
+    posted_date=models.DateField()
+    closing_date=models.DateField()
+    company=models.CharField(max_length=500)
+    logo=models.FileField(upload_to="Technopark Company Jobs",null=True)
+    datetime=models.DateTimeField(auto_now_add=True)
+    
+    def recent_job(self):
+        print("recentjobs fetched")
+        return self.datetime >= (timezone.now() - timedelta(days=1))
+    
+    def __str__(self):
+        return self.title
+    
+    
+class CyberparkJobs(models.Model):
+    company_name = models.CharField()
+    job_title=models.CharField(max_length=600)
+    job_link=models.TextField()
+    post_date=models.CharField(max_length=600)
+    datetime=models.DateTimeField(auto_now_add=True)
+    
+    def recent_job(self):
+        return self.datetime >= (timezone.now() - timedelta(days=1))
+    
+    def __str__(self):
+        return self.job_title

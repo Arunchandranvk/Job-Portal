@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ay%b&kswon44kn3pv^=f#fwf!q7=*)un^p7lk&x2rsrk!&akq)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','https://arunchandranvk.github.io/Job-Portal/']
+ALLOWED_HOSTS = ['*','127.0.0.1','localhost','afa61242.ngrock.io']
 
 AUTH_USER_MODEL="accounts.CustomUser"
 # Application definition
@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts'
+    'accounts',
+         'celery',
+     'django_celery_beat',
+     'django_celery_results'
+
 ]
 
 MIDDLEWARE = [
@@ -110,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -126,4 +130,25 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# set the celery broker url
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
+# set the celery result backend
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_TIMEZONE = 'Asia/Kolkata'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'run-every-minute': {
+        'task': 'accounts.tasks.test_task',
+        'schedule': 60.0,  # run every 60 seconds
+    },
+    'run-every-hour': {
+        'task': 'accounts.tasks.test_task.scrape_and_save_jobs',
+        'schedule': crontab(hour=23, minute=0), # run every 60 seconds
+    },
+}

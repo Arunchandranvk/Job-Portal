@@ -1,0 +1,113 @@
+.search-form-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+/* Styling the form */
+.search-form {
+    display: flex;
+    flex-direction: column; /* Stack form elements vertically */
+    gap: 10px;
+}
+
+.search-form .form-row {
+    display: flex;
+    flex-direction: column; /* Stack fields vertically on smaller screens */
+    gap: 10px;
+}
+
+.search-form .form-row > div {
+    flex: 1; /* Allow fields to grow */
+}
+
+.search-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: #0056b3;
+}
+
+h1 {
+    text-align: center;
+}
+
+form {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-form .form-row {
+        flex-direction: column; /* Stack fields vertically */
+    }
+    
+    .search-form button {
+        width: 100%; /* Make button full width */
+        padding: 15px; /* Increase padding for better touch targets */
+    }
+
+ 
+}
+
+@media (max-width: 480px) {
+    .search-form-container {
+        padding: 5px; /* Reduce padding on very small screens */
+        border-radius: 5px; /* Adjust border radius */
+    }
+
+    .search-form button {
+        font-size: 14px; /* Smaller font size on very small screens */
+        padding: 10px; /* Adjust padding */
+    }
+
+    table {
+        font-size: 12px; /* Further reduce font size */
+    }
+}
+.recent_job{
+    /* background-color: rgb(170, 235, 201)!important; */
+    background-color: rgb(188, 230, 226)!important;
+    color: white;
+  }

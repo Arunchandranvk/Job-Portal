@@ -10,18 +10,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <title>Luminar TechnoHub</title>
-    <link rel="shortcut icon" type="image/icon" href="{% static 'images/hublogo.enc' %}"/>
+    <link rel="shortcut icon" type="image/icon" href="{% static 'images/hublogo.enc' %}" style="border-radius: 0.75rem;">
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
-    <link rel="stylesheet" href="{% static 'css/templatemo-574-mexant.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/owl.css' %}">
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
-
   </head>
 
 <body>
@@ -34,31 +33,75 @@
               <div class="col-12">
                   <nav class="main-nav">
                       <!-- ***** Logo Start ***** -->
-                      <a href="{%  url 'h' %}" class="logo">
-                          <img src="{% static 'images/hublogo.png' %}" alt="" style="object-fit:fill;height:80px;">
-                      </a>
-                      <!-- ***** Logo End ***** -->
+                       <div class="row">
+                        <div class="col-5">
+                          <a href="{%  url 'h' %}" class="logo">
+                            <img class="mt-2" src="{% static 'images/hublogo1.jpg' %}" alt="" style="object-fit:fill;max-width: 100%;margin-left:0px;border-radius:0.75rem;
+      height: 70px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      display: block;
+
+ ">
+                        </a>
+                        </div>
+                        <div class="col-6">
+                           <!-- ***** Logo End ***** -->
                       <!-- ***** Menu Start ***** -->
                       <ul class="nav">
-                          <li class="scroll-to-section"><a href="{% url 'h' %}" class="active">Home</a></li>
-                          <li class="scroll-to-section"><a href="#services">Services</a></li>
-                          <li class="scroll-to-section"><a href="#about">About</a></li>
-                          <li class="has-sub">
-                              <a href="javascript:void(0)">Companies</a>
-                              <ul class="sub-menu">
-                                  <li><a href="{% url 'cyber-comp' %}">            <img src="{% static 'images/cyber-1.jpg' %}" alt="Cyber" style="float:left;height:40px;width:50px;object-fit:fill;padding:5px ;margin-left:-15px;">
-                                    &nbsp;&nbsp; CyberPark</a></li>
-                                  <li><a href="our-services.html"><img src="{% static 'images/infoparkLogo.svg' %}" alt="Cyber" style="float:left;height:40px;width:50px;object-fit:fill;padding:5px;margin-left:-15px;">  &nbsp; &nbsp;&nbsp;InfoPark</a></li>
-                                  <li><a href="contact-us.html"><img src="{% static 'images/tp-logo.png' %}" alt="Cyber" style="float:left;height:30px;width:60px;object-fit:fill;padding:5px;margin-left:-15px;">&nbsp;TechnoPark</a></li>
-                              </ul>
-                          </li>
-                          <li class="scroll-to-section"><a href="#testimonials">Testimonials</a></li>
-                          <li><a href="contact-us.html">Contact Support</a></li> 
-                      </ul>        
-                      <a class='menu-trigger'>
-                          <span>Menu</span>
-                      </a>
-                      <!-- ***** Menu End ***** -->
+                        <li class="scroll-to-section"><a href="{% url 'h' %}" class="active">Home</a></li>
+                        <!-- <li class="scroll-to-section"><a href="#services">Services</a></li> -->
+                        
+                        <li class="has-sub">
+                          <a href="javascript:void(0)">Companies</a>
+                          <ul class="sub-menu">
+                              <li>
+                                  <a href="{% url 'cyber-comp' %}" class="sub-menu-item">
+                                    <div class="row">
+                                      <div class="col-4 mt-1">
+                                        <img src="{% static 'images/cyber-1.jpg' %}" alt="Cyber" class="sub-menu-img">
+                                      </div>
+                                      <div class="col mt-1">
+                                        <span class="sub-menu-text">CyberPark</span>
+                                      </div>
+                                    </div>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="our-services.html" class="sub-menu-item">
+                                    <div class="row">
+                                      <div class="col-4">
+                                        <img src="{% static 'images/infoparkLogo.svg' %}" alt="Cyber" class="sub-menu-img">
+                                      </div>
+                                      <div class="col">
+                                        <span class="sub-menu-text">InfoPark</span>
+                                      </div>
+                                    </div>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="" class="sub-menu-item">
+                                    <div class="row">
+                                      <div class="col-4">
+                                        <img src="{% static 'images/tp-logo.png' %}" alt="Cyber" class="sub-menu-img" >
+                                      </div>
+                                      <div class="col">
+                                        <span class="sub-menu-text" >TechnoPark</span>
+                                      </div>
+                                    </div>
+                                  </a>
+                              </li>
+                          </ul>
+                      </li>
+                      <li class="scroll-to-section"><a href="#about">About</a></li>
+                      
+                        <li ><a href="#about">Login</a></li>
+                    </ul>        
+                    <a class='menu-trigger'>
+                        <span>Menu</span>
+                    </a>
+                    <!-- ***** Menu End ***** -->
+                        </div>
+                       </div>
                   </nav>
               </div>
           </div>
@@ -144,75 +187,96 @@
   </div>
 
   <!-- ***** Main Banner Area End ***** -->
-
   <section class="services" id="services">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-12">
           <div class="service-item">
-            <a href="" style="transition: all 0.5s ease-out; ">
-            <img src="{% static 'images/cyber-1.jpg' %}" alt="Cyber" style="float:left;height:80px;width:180px;object-fit:fill;padding-bottom:15px;">
-            <h4 style="padding: 10px 0px 0px 120px; font-size: 28px; font-weight: bold; color: #2c3e50; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); border-radius: 5px; display: inline-block;margin: 0;">
-                CyberPark
-            </h4>
+            <a href="" class="service-link">
+              <div class="row">
+                <div class="col">
+                  <img src="{% static 'images/cyber-1.jpg' %}" alt="Cyber" class="service-img">
+                </div>
+                <div class="col">
+                  <h4 class="service-title">CyberPark</h4>
+                </div>
+              </div>
             </a>
-            <!-- <p>TemplateMo website is the best for you to explore and download free website templates.</p> -->
           </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-12">
           <div class="service-item">
-            <a href="" style="transition: all 0.5s ease-out; ">
-            <img src="{% static 'images/infoparkLogo.svg' %}" alt="Cyber" style="float:left;height:80px;width:180px;object-fit:fill;padding-bottom:15px;">
-            <h4 style="padding: 10px 0px 0px 120px; font-size: 28px; font-weight: bold; color: #2c3e50; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); border-radius: 5px; display: inline-block;margin: 0;">
-                InfoPark
-            </h4>  
+            <a href="" class="service-link">
+              <div class="row">
+                <div class="col">
+                  <img src="{% static 'images/infoparkLogo.svg' %}" alt="InfoPark" class="service-img">
+                </div>
+                <div class="col">
+                  <h4 class="service-title">InfoPark</h4>
+                </div>
+              </div>
             </a>
-            </div>
+          </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-12">
           <div class="service-item">
-            <a href="">
-            <img src="{% static 'images/tp-logo.png' %}" alt="Cyber" style="float:left;height:80px;width:180px;object-fit:fill;padding-bottom:15px;">
-            <h4 style="padding: 10px 0px 0px 120px; font-size: 28px; font-weight: bold; color: #2c3e50; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); border-radius: 5px; display: inline-block;margin: 0;">      
-                TechnoPark
-            </h4> 
+            <a href="{% url 'technopark' %}" class="service-link">
+              <div class="row">
+                <div class="col">
+                  <img src="{% static 'images/tp-logo.png' %}" alt="TechnoPark" class="service-img">
+                </div>
+                <div class="col">
+                  <h4 class="service-title">TechnoPark</h4>
+                </div>
+              </div>
             </a>
-    </div>
+          </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-12">
           <div class="service-item">
-            <a href="" style="transition: all 0.5s ease-out; ">
-            <img src="{% static 'images/kinfra.png' %}" alt="Cyber" style="float:left;height:80px;width:180px;object-fit:fill;padding-bottom:15px;margin-top:-10px;">
-            <h4 style="padding: 10px 0px 0px 120px; font-size: 28px; font-weight: bold; color: #2c3e50; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); border-radius: 5px; display: inline-block;margin: 0;">      
-              Kinfra
-          </h4>
+            <a href="" class="service-link">
+              <div class="row">
+                <div class="col">
+                  <img src="{% static 'images/kinfra.png' %}" alt="Kinfra" class="service-img">
+                </div>
+                <div class="col">
+                  <h4 class="service-title">Kinfra</h4>
+                </div>
+              </div>
             </a>
+          </div>
         </div>
-        </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-12">
           <div class="service-item">
-            <a href="">
-            <img src="{% static 'images/indeed.png' %}" alt="Cyber" style="float:left;height:100px;width:150px;object-fit:fill;padding-bottom:15px;margin-top:-15px;">
-            <h4 style="padding: 10px 0px 0px 150px; font-size: 28px; font-weight: bold; color: #2c3e50; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); border-radius: 5px; display: inline-block;margin: 0;">      
-              Indeed
-          </h4>
-          </a>
-         </div>
+            <a href="{% url 'indeed' %}" class="service-link">
+              <div class="row">
+                <div class="col">
+                  <img src="{% static 'images/indeed.png' %}" alt="Indeed" class="service-img">
+                </div>
+                <div class="col">
+                  <h4 class="service-title">Indeed</h4>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-12">
           <div class="service-item">
-            <a href="">
-            <img src="{% static 'images/glassdoor.png' %}" alt="Cyber" style="float:left;height:80px;width:180px;object-fit:fill;padding-bottom:15px;margin-top:-10px;">
-            <h4 style="padding: 10px 0px 0px 120px; font-size: 28px; font-weight: bold; color: #2c3e50; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); border-radius: 5px; display: inline-block;margin: 0;">      
-              Glassdoor
-          </h4>
-        </a>
-         </div>
+            <a href="" class="service-link">
+              <div class="row">
+                <div class="col">
+                  <img src="{% static 'images/glassdoor.png' %}" alt="Glassdoor" class="service-img">
+                </div>
+                <div class="col">
+                  <h4 class="service-title">Glassdoor</h4>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </section>
-
   <section class="simple-cta">
     <div class="container">
       <div class="row">
